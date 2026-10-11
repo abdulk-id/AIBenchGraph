@@ -47,10 +47,10 @@
     root.appendChild(svg);
 
     var cfg = null;
+    var cur = null; /* domain currently plotted */
     var xs = F.linear(), ys = F.linear();
     var plot = { left: 48, right: 0, top: 12, bottom: 0, width: 0, height: 0 };
     var placed = [];
-    var frame = null;
 
     /* --------------------------------------------------------------- domains */
 
@@ -89,44 +89,48 @@
       return { x0: x0, x1: x1, y0: y0 - ypad, y1: y1 + ypad };
     }
 
-    /* Gutter on the right sized to the longest model name. */
+    /* Gutter on the right sized to the longest model name.
+       Returns null while the container has no size yet — the resize observer
+       calls back as soon as it does. */
     function layout() {
-      var w = root.clientWidth || 800;
-      var h = root.clientHeight || 500;
+      var w = root.clientWidth;
+      var h = root.clientHeight;
+      if (w < 80 || h < 80) return null;
 
       var longest = 0;
       cfg.models.forEach(function (m) { longest = Math.max(longest, m.name.length); });
       var gutter = Math.min(230, Math.max(90, longest * 6.6 + 26));
 
-      var left = 46, right = 14, top = 14, bottom = 40;
+      var left = 46, right = 14, top = 14, bottomMargin = 40;
+      var height = h - bottomMargin - top;
+      var width = Math.max(40, w - gutter - left - right);
       plot = {
-        left: left, top: top, bottom: bottom,
-        right: w - gutter,
-        width: Math.max(40, w - gutter - left - right),
-        height: Math.max(40, h - top - bottom)
+        left: left,
+        top: top,
+        right: left + width, /* the scale range and the grid must agree */
+        bottom: top + height,
+        width: width,
+        height: height
       };
       svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
       return { w: w, h: h };
     }
 
+    /* Zero-cost points have no place on a log axis; hold them at the left edge. */
     function clampCost(p) {
-      return cfg.scale === 'log' ? Math.max(p.cost, xs.domain()[0]) : p.cost;
+      return cfg.scale === 'log' && cur ? Math.max(p.cost, cur.x0) : p.cost;
     }
 
     function radius(p) {
       return p.effort ? Math.min(8, 2.8 + 0.9 * AA.data.effortIndex(p.effort)) : 3.6;
     }
 
-    /* ---------------------------------------------------------------- render */
-
-    function schedule() {
-      if (frame) return;
-      frame = requestAnimationFrame(function () { frame = null; render(); });
-    }
+    /* -------------------------------------------------------------- render */
 
     function render() {
       if (!cfg) return;
       var size = layout();
+      if (!size) return; /* not laid out yet; the observer will call again */
 
       clear(gGrid); clear(gAxis); clear(gPareto); clear(gModels); clear(gNames); clear(gMsg);
 
@@ -138,6 +142,7 @@
 
       var d = domain(cfg.models);
       if (!d) return;
+      cur = d;
 
       xs = (cfg.scale === 'log' ? F.log() : F.linear())
         .domain(d.x0, d.x1).range(plot.left, plot.right);
@@ -240,7 +245,7 @@
     /* Names sit in the right gutter, nudged apart so they never overlap. */
     function drawNames(labels) {
       var gap = 17;
-      var top = plot.top, bottom = plot.top + plot.height;
+      var top = plot.top, bottom = plot.bottom;
       var x = plot.right + 16;
 
       labels.sort(function (a, b) { return a.y - b.y; });
@@ -329,7 +334,16 @@
       if (opts.onHover) opts.onHover(null);
     });
 
-    if (window.ResizeObserver) new ResizeObserver(schedule).observe(root);
+    /* Redraw straight away, never through requestAnimationFrame, and listen to
+       window resize as well as ResizeObserver: neither rAF nor ResizeObserver
+       notifications are delivered while a tab is in the background, which
+       would otherwise leave the plot stuck at the size it was first drawn at. */
+    if (window.ResizeObserver) new ResizeObserver(render).observe(root);
+    window.addEventListener('resize', render);
+
+    /* one more pass once styles and layout have definitely settled */
+    if (document.readyState === 'complete') render();
+    else window.addEventListener('load', render);
 
     return {
       update: function (next) { cfg = next; render(); }
