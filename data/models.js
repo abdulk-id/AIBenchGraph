@@ -37,81 +37,157 @@ window.AA_DATA = {
         url: "https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index",
         placeholder: true,
         note: "Data entered manually. Not fetched from AAII",
-
         models: {
-            "PLACEHOLDER Frontier A": {
-                provider: "Frontier Labs",
-                score: 47.5,
-                cost: 0.62,
+            "Claude Opus 5.5": {
+                provider: "Anthropic",
+                max: {
+                    score: 58,
+                    cost: 5.98,
+                },
+                xhigh: {
+                    score: 56,
+                    cost: 3.46,
+                },
+                high: {
+                    score: 54,
+                    cost: 1.82,
+                },
+                medium: {
+                    score: 51,
+                    cost: 1.34,
+                },
+                low: {
+                    score: 42,
+                    cost: 0.55,
+                },
             },
-
-            "PLACEHOLDER Frontier A (reasoning)": {
-                provider: "Frontier Labs",
-                high: { score: 49.8, cost: 2.4 },
-                medium: { score: 48.9, cost: 0.88 },
-                low: { score: 46.1, cost: 0.24 },
-                none: { score: 32.4, cost: 0.05 },
+            "Claude Sonnet 5.5": {
+                provider: "Anthropic",
+                max: {
+                    score: 56,
+                    cost: 5.46,
+                },
+                xhigh: {
+                    score: 52,
+                    cost: 2.01,
+                },
+                high: {
+                    score: 47,
+                    cost: 0.88,
+                },
+                medium: {
+                    score: 41,
+                    cost: 0.48,
+                },
+                low: {
+                    score: 36,
+                    cost: 0.35,
+                },
             },
-
-            "PLACEHOLDER Middle B": {
-                provider: "Middle Labs",
-                high: { score: 44.6, cost: 4.1 },
-                medium: { score: 43.0, cost: 1.45 },
-                low: { score: 40.2, cost: 0.31 },
-                none: { score: 29.8, cost: 0.06 },
+            "Claude Haiku 5.5": {
+                provider: "Anthropic",
+                max: {
+                    score: 43,
+                    cost: 0.21,
+                },
+                xhigh: {
+                    score: 41,
+                    cost: 0.12,
+                },
+                high: {
+                    score: 38,
+                    cost: 0.08,
+                },
+                medium: {
+                    score: 34,
+                    cost: 0.05,
+                },
+                low: {
+                    score: 29,
+                    cost: 0.02,
+                },
             },
-
-            "PLACEHOLDER Middle C": {
-                provider: "Middle Labs",
-                high: { score: 41.2, cost: 1.05 },
-                low: { score: 37.5, cost: 0.19 },
-                none: { score: 26.1, cost: 0.04 },
+            "GPT-6 Luna": {
+                provider: "OpenAI",
+                max: {
+                    score: 38,
+                    cost: 0.07,
+                },
+                xhigh: {
+                    score: 35,
+                    cost: 0.04,
+                },
+                high: {
+                    score: 33,
+                    cost: 0.03,
+                },
+                medium: {
+                    score: 30,
+                    cost: 0.02,
+                },
+                low: {
+                    score: 22,
+                    cost: 0.01,
+                },
+                none: {
+                    score: 18,
+                    cost: 0.0045,
+                },
             },
-
-            "PLACEHOLDER Small D": {
-                score: 28.4,
-                cost: 0.034,
+            "MiMo-V2.6-Pro": {
+                provider: "Xiaomi",
+                score: 46,
+                cost: 0.13,
             },
-
-            "PLACEHOLDER Small E": {
-                provider: "Open Labs",
-                high: { score: 33.6, cost: 0.42 },
-                none: { score: 21.7, cost: 0.02 },
+            "MiMo-V2.6-Flash": {
+                provider: "Xiaomi",
+                score: 38,
+                cost: 0.06,
             },
-
-            "PLACEHOLDER Cheap F": {
-                score: 17.9,
-                cost: 0.0035,
+            "GLM-5.3-Flash": {
+                provider: "Z AI",
+                score: 42,
+                cost: 0.25,
             },
-
-            "PLACEHOLDER Frontier G": {
-                provider: "Frontier Labs",
-                high: { score: 56.9, cost: 18.0 },
-                medium: { score: 55.1, cost: 5.6 },
-                low: { score: 52.2, cost: 1.3 },
-                none: { score: 38.7, cost: 0.14 },
+            "Qwen3.8 27B": {
+                provider: "Alibaba",
+                xhigh: {
+                    score: 34,
+                    cost: 1.01,
+                },
+                medium: {
+                    score: 28,
+                    cost: 1.13,
+                },
+                low: {
+                    score: 26,
+                    cost: 1.05,
+                },
+                none: {
+                    score: 20,
+                    cost: 2.49,
+                },
             },
-
-            "PLACEHOLDER Open H": {
-                provider: "Open Labs",
-                high: { score: 44.9, cost: 3.2 },
-                medium: { score: 43.3, cost: 1.1 },
-                low: { score: 40.6, cost: 0.26 },
+            "Ling-3.0-flash-Fin": {
+                provider: "InclusionAI",
+                score: 23,
+                cost: 0,
+            },
+            "Grok 4.7": {
+                provider: "SpaceXAI",
+                xhigh: {
+                    score: 46,
+                    cost: 3.74,
+                },
+                high: {
+                    score: 46,
+                    cost: 2.73,
+                },
+                low: {
+                    score: 42,
+                    cost: 1.25,
+                },
             },
         },
     },
-
-    /*
-    A second benchmark would look like this:
-    'gpqa_diamond': {
-        label: 'GPQA Diamond',
-        axis: 'Accuracy (%)',
-        unit: 'percent',
-        url: 'https://artificialanalysis.ai/evaluations/gpqa-diamond-benchmark',
-        models: {
-            'Claude Opus 5.5': { score: 88.1, cost: 1.40 },
-            'GPT-5.6 Sol':     { high: { score: 89.4, cost: 2.10 }, low: { score: 86.2, cost: 0.44 } }
-        }
-    }
-    */
 };

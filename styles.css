@@ -182,9 +182,10 @@ svg {
 }
 .pareto {
     fill: none;
-    stroke: #5f6368;
-    stroke-width: 1.2;
-    stroke-dasharray: 3 4;
+    stroke: #b9c0c8;
+    stroke-width: 1.6;
+    stroke-dasharray: 5 5;
+    opacity: .9;
 }
 
 .pt {
@@ -501,4 +502,115 @@ footer .warn {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- sidebar */
+
+.work {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+}
+
+.work main {
+    flex: 1 1 auto;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.side {
+    flex: 0 0 214px;
+    width: 214px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #14161a;
+}
+
+.side-head {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    height: 30px;
+    padding: 0 12px;
+    border-bottom: 1px solid #14161a;
+    color: #5f6368;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.side-head button {
+    background: none;
+    border: 0;
+    color: #5f6368;
+    font: inherit;
+    font-size: 10.5px;
+    letter-spacing: 0;
+    text-transform: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.side-head button:hover {
+    color: #fff;
+}
+
+.side-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 4px 0 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #262a30 transparent;
+}
+
+.side-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 3px 12px;
+    color: #8b8f96;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.side-item:hover {
+    color: #fff;
+    background: #0d0f12;
+}
+
+.side-item input {
+    flex: 0 0 auto;
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    accent-color: #e8eaed;
+}
+
+.side-item .sw {
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.side-item .nm {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.side-item.off .nm {
+    color: #4a4f57;
+}
+
+.side-empty {
+    padding: 10px 12px;
+    color: #4a4f57;
+    font-size: 11.5px;
 }

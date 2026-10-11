@@ -49,6 +49,8 @@
         return COLORS[h % COLORS.length];
     }
 
+    AA.colorFor = colorFor;
+
     /* Models added through the panel get a "+" so they are never mistaken for
        entries that are really in data/models.js. */
     function labelFor(m) {

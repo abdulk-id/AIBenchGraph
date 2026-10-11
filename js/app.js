@@ -12,12 +12,13 @@
         ds: null,
         sourceId: null,
         search: "",
-        pareto: true,
         scale: "log",
         hover: null,
+        hidden: {},
     };
 
     var STORE = "aibenchgraph.v1.";
+    var PREF = "aibenchgraph.pref.";
     var chart = null;
 
     function $(id) {
@@ -47,7 +48,29 @@
         apErr: $("apErr"),
         apLocal: $("apLocal"),
         apLocalList: $("apLocalList"),
+        sideCount: $("sideCount"),
+        sideToggle: $("sideToggle"),
+        sideList: $("sideList"),
     };
+
+    /* Preferences (currently just the Pareto toggle) live in localStorage, so a
+       reload leaves the chart exactly as you left it. */
+    function readPref(key, fallback) {
+        try {
+            var v = window.localStorage.getItem(PREF + key);
+            return v === null ? fallback : v === "1";
+        } catch (e) {
+            return fallback;
+        }
+    }
+
+    function writePref(key, value) {
+        try {
+            window.localStorage.setItem(PREF + key, value ? "1" : "0");
+        } catch (e) {
+            /* nothing we can do, the toggle still works for this session */
+        }
+    }
 
     /* --------------------------------------------------------- local store */
 
@@ -111,6 +134,19 @@
         });
     }
 
+    /* Everything the sidebar lists: search-filtered, but ignoring the
+       show/hide boxes so a hidden model can always be found and re-enabled. */
+    function listedModels() {
+        return models();
+    }
+
+    /* What actually gets drawn: listed models minus the unchecked ones. */
+    function plottedModels() {
+        return listedModels().filter(function (m) {
+            return !S.hidden[m.name];
+        });
+    }
+
     function current() {
         var list = S.ds ? S.ds.sources : [];
         for (var i = 0; i < list.length; i++) if (list[i].id === S.sourceId) return list[i];
@@ -145,13 +181,13 @@
 
     function refresh() {
         var src = current();
-        var list = models();
+        var list = plottedModels();
 
         chart.update({
             models: list,
             axis: src ? src.axis : "Score",
             scale: S.scale,
-            pareto: S.pareto,
+            pareto: dom.pareto.checked,
             hover: S.hover,
             empty: !S.ds
                 ? "No data loaded — data/models.js did not set window.AA_DATA."
@@ -173,6 +209,52 @@
                 : "";
 
         renderLocalList();
+        renderSidebar();
+    }
+
+    /* ------------------------------------------------------------ sidebar */
+
+    function renderSidebar() {
+        var list = listedModels();
+        var shown = list.filter(function (m) {
+            return !S.hidden[m.name];
+        });
+
+        dom.sideCount.textContent =
+            shown.length === list.length
+                ? list.length + (list.length === 1 ? " model" : " models")
+                : shown.length + " of " + list.length;
+
+        dom.sideToggle.textContent = shown.length ? "hide all" : "show all";
+
+        if (!list.length) {
+            dom.sideList.innerHTML =
+                '<div class="side-empty">' +
+                (S.search ? 'Nothing matches "' + S.search + '".' : "No models in this benchmark.") +
+                "</div>";
+            return;
+        }
+
+        dom.sideList.innerHTML = list
+            .map(function (m) {
+                var off = !!S.hidden[m.name];
+                return (
+                    '<label class="side-item' +
+                    (off ? " off" : "") +
+                    '" data-name="' +
+                    esc(m.name) +
+                    '" title="' +
+                    esc(m.name + (m.provider ? " · " + m.provider : "")) +
+                    '"><input type="checkbox"' +
+                    (off ? "" : " checked") +
+                    ' /><i class="sw" style="background:' +
+                    AA.colorFor(m.name) +
+                    '"></i><span class="nm">' +
+                    esc((m.added ? "+ " : "") + m.name) +
+                    "</span></label>"
+                );
+            })
+            .join("");
     }
 
     /* ---------------------------------------------------------- add panel */
@@ -453,8 +535,10 @@
         }, 120);
     });
 
+    /* The checkbox is the only source of truth; the choice is remembered so a
+       reload leaves the line where you put it. */
     dom.pareto.addEventListener("change", function () {
-        S.pareto = dom.pareto.checked;
+        writePref("pareto", dom.pareto.checked);
         refresh();
     });
 
@@ -469,6 +553,31 @@
         S.scale = "linear";
         dom.scaleLinear.classList.add("on");
         dom.scaleLog.classList.remove("on");
+        refresh();
+    });
+
+    dom.sideList.addEventListener("change", function (ev) {
+        var box = ev.target;
+        if (!box || box.type !== "checkbox") return;
+        var item = box.closest(".side-item");
+        if (!item) return;
+        var name = item.getAttribute("data-name");
+        if (box.checked) delete S.hidden[name];
+        else S.hidden[name] = true;
+        S.hover = null;
+        refresh();
+    });
+
+    dom.sideToggle.addEventListener("click", function () {
+        var list = listedModels();
+        var anyShown = list.some(function (m) {
+            return !S.hidden[m.name];
+        });
+        list.forEach(function (m) {
+            if (anyShown) S.hidden[m.name] = true;
+            else delete S.hidden[m.name];
+        });
+        S.hover = null;
         refresh();
     });
 
@@ -525,6 +634,10 @@
             }
         }
     });
+
+    /* Restore the remembered toggles before the first render, so the checkbox and
+       the chart can never disagree. */
+    dom.pareto.checked = readPref("pareto", dom.pareto.checked);
 
     chart = AA.createChart(dom.chart, {
         tip: dom.tip,

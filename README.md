@@ -78,13 +78,27 @@ shape. It becomes its own tab:
 Entries that aren't a pair of finite numbers are skipped and listed in the console
 rather than breaking the chart.
 
+## Showing and hiding models
+
+The sidebar lists every model for the current benchmark — the file's entries and
+anything added in this browser — with a checkbox each. Untick to drop a model from
+the plot; the header shows `N of M` and **hide all / show all** resets in one click.
+The Pareto line is drawn through whichever models are currently shown.
+
+The search box filters the sidebar and the plot together, and never hides a model
+from the sidebar itself, so a ticked-off model is always one click away.
+
+Ticking the box is remembered per browser, so a reload leaves the Pareto line
+where you put it. The show/hide selection is per session.
+
 ## Reading the graph
 
 - Each **line** is one model; each dot is a reasoning effort, growing with effort.
   A steep ladder means the extra money buys real intelligence; a flat one doesn't.
-- **Pareto line** — nothing cheaper scores higher.
+- **Pareto line** — nothing cheaper scores higher. Drawn through the models that
+  are currently shown.
 - Hover a dot for the exact score and cost; hovering a model dims the rest.
-- Search box filters by model or provider. `/` focuses it, `Esc` clears it.
+- Search box filters model and provider. `/` focuses it, `Esc` clears it.
 
 The plot always fills the window — there is no scrolling, zooming or panning.
 
