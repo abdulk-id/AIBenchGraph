@@ -1,0 +1,6 @@
+# OpenChamber browser-panel artefacts
+.openchamber/
+
+# OS noise
+.DS_Store
+Thumbs.db
