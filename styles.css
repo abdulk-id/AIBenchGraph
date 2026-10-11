@@ -272,3 +272,233 @@ footer .warn {
     color: #8b8f96;
     padding: 0;
 }
+
+/* ------------------------------------------------------------ add model */
+
+.add-btn {
+    background: none;
+    border: 1px solid #20242a;
+    color: #8b8f96;
+    font: inherit;
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    color: #fff;
+    border-color: #4a4f57;
+}
+
+.add-btn.on {
+    color: #000;
+    background: #e8eaed;
+    border-color: #e8eaed;
+}
+
+.add-panel {
+    position: absolute;
+    z-index: 30;
+    top: 52px;
+    right: 18px;
+    width: 350px;
+    padding: 12px 14px 14px;
+    background: #0d0f12;
+    border: 1px solid #262a30;
+    border-radius: 8px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .7);
+    font-size: 12px;
+}
+
+.ap-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.ap-x {
+    background: none;
+    border: 0;
+    color: #5f6368;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+.ap-x:hover {
+    color: #fff;
+}
+
+.ap-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.ap-field > span {
+    width: 58px;
+    flex: 0 0 auto;
+    color: #8b8f96;
+    font-size: 11.5px;
+}
+
+.add-panel input[type="text"],
+.add-panel select {
+    flex: 1 1 0;
+    min-width: 0;
+    background: #000;
+    border: 1px solid #20242a;
+    border-radius: 5px;
+    color: #e8eaed;
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 7px;
+}
+
+.add-panel input.ap-score,
+.add-panel input.ap-cost {
+    font-variant-numeric: tabular-nums;
+}
+
+.add-panel input:focus,
+.add-panel select:focus {
+    outline: none;
+    border-color: #4a4f57;
+}
+
+.ap-cols {
+    display: grid;
+    grid-template-columns: 92px 1fr 1fr 20px;
+    gap: 6px;
+    margin: 12px 0 5px;
+    color: #5f6368;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.ap-row {
+    display: grid;
+    grid-template-columns: 92px 1fr 1fr 20px;
+    gap: 6px;
+    margin-bottom: 5px;
+}
+
+.ap-row .ap-del {
+    background: none;
+    border: 0;
+    color: #5f6368;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+}
+
+.ap-row .ap-del:hover {
+    color: #e8eaed;
+}
+
+.ap-ghost,
+.ap-primary {
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+.ap-ghost {
+    background: none;
+    border: 1px solid #20242a;
+    color: #8b8f96;
+}
+
+.ap-ghost:hover {
+    color: #fff;
+    border-color: #4a4f57;
+}
+
+.ap-primary {
+    background: #e8eaed;
+    border: 1px solid #e8eaed;
+    color: #000;
+    font-weight: 600;
+}
+
+.ap-rowadd {
+    margin-top: 2px;
+    border-style: dashed;
+}
+
+.ap-err {
+    margin: 8px 0 0;
+    color: #f28b82;
+    font-size: 11.5px;
+}
+
+.ap-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ap-local {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #20242a;
+}
+
+.ap-local-head {
+    color: #5f6368;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+}
+
+.ap-local-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 0;
+    color: #8b8f96;
+}
+
+.ap-local-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ap-local-item button {
+    background: none;
+    border: 0;
+    color: #5f6368;
+    cursor: pointer;
+    flex: 0 0 auto;
+    padding: 0 2px;
+}
+
+.ap-local-item button:hover {
+    color: #f28b82;
+}
+
+.ap-local-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ap-head span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -49,6 +49,12 @@
         return COLORS[h % COLORS.length];
     }
 
+    /* Models added through the panel get a "+" so they are never mistaken for
+       entries that are really in data/models.js. */
+    function labelFor(m) {
+        return (m.added ? "+ " : "") + m.name;
+    }
+
     AA.createChart = function (root, opts) {
         opts = opts || {};
 
@@ -118,7 +124,7 @@
 
             var longest = 0;
             cfg.models.forEach(function (m) {
-                longest = Math.max(longest, m.name.length);
+                longest = Math.max(longest, labelFor(m).length);
             });
             var gutter = Math.min(230, Math.max(90, longest * 6.6 + 26));
 
@@ -311,7 +317,14 @@
                 var anchor = pts.reduce(function (a, b) {
                     return b.x > a.x ? b : a;
                 });
-                labels.push({ name: m.name, color: color, x: anchor.x, y: anchor.y, dim: dim });
+                labels.push({
+                    name: labelFor(m),
+                    raw: m.name,
+                    color: color,
+                    x: anchor.x,
+                    y: anchor.y,
+                    dim: dim,
+                });
             });
 
             drawNames(labels);
@@ -361,7 +374,7 @@
                     {
                         x: x,
                         y: l.ly,
-                        class: "name" + (l.dim ? " dim" : cfg.hover === l.name ? " hot" : ""),
+                        class: "name" + (l.dim ? " dim" : cfg.hover === l.raw ? " hot" : ""),
                         fill: l.dim ? null : l.color,
                     },
                     gNames,

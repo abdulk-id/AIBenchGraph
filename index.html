@@ -16,8 +16,39 @@
                     <button type="button" id="scaleLog" class="on">Log</button>
                     <button type="button" id="scaleLinear">Linear</button>
                 </div>
+                <button type="button" id="addBtn" class="add-btn">+ Model</button>
             </div>
         </header>
+
+        <form class="add-panel" id="addPanel" hidden>
+            <div class="ap-head">
+                <span id="apTitle">Add model</span>
+                <button type="button" id="addClose" class="ap-x" title="Close">&times;</button>
+            </div>
+
+            <div class="ap-field"><span>Name</span><input id="apName" type="text" placeholder="Claude Opus 5.5" autocomplete="off" /></div>
+            <div class="ap-field"><span>Provider</span><input id="apProvider" type="text" placeholder="Anthropic (optional)" autocomplete="off" /></div>
+
+            <div class="ap-cols"><span>effort</span><span>score</span><span>cost / task</span><span></span></div>
+            <div id="apRows"></div>
+            <button type="button" id="apAddRow" class="ap-ghost ap-rowadd">+ another effort level</button>
+
+            <p class="ap-err" id="apErr" hidden></p>
+
+            <div class="ap-actions">
+                <button type="button" id="apCancel" class="ap-ghost">Cancel</button>
+                <button type="submit" class="ap-primary">Add model</button>
+            </div>
+
+            <div class="ap-local" id="apLocal" hidden>
+                <div class="ap-local-head">added in this browser</div>
+                <div id="apLocalList"></div>
+                <div class="ap-local-actions">
+                    <button type="button" id="apExport" class="ap-ghost">Download data/models.js</button>
+                    <button type="button" id="apClear" class="ap-ghost">Clear all</button>
+                </div>
+            </div>
+        </form>
 
         <main id="chart"></main>
 

@@ -1,14 +1,32 @@
-# Cost vs Intelligence
+# AIBenchGraph
 
 One graph: **cost per task** (x) against **benchmark score** (y), with a tab per
-benchmark. Values are transcribed by hand — there are no network calls, no build
-step and no dependencies.
+benchmark. Values are entered by hand — no network calls, no build step, no
+dependencies.
 
 ```
 open index.html          # macOS
 xdg-open index.html      # Linux
 start index.html         # Windows
 ```
+
+## Adding a model
+
+Press **+ Model**. Name it, optionally give a provider, then fill in a score and a
+cost per task. Tick *another effort level* for each reasoning setting — leave the
+effort as `single` if the model has just one score.
+
+Added models are kept in this browser's local storage and drawn with a **`+`** in
+front of the name, so they are never mistaken for entries that are really in
+`data/models.js`. The panel lists them underneath with a `✕` each, and:
+
+- **Download data/models.js** writes the whole dataset — the file's models plus
+  yours — as a `models.js` you can drop in to replace `data/models.js`. After
+  that the entries are real file entries and lose the `+`.
+- **Clear all** removes the local additions and leaves the file untouched.
+
+Until you download, additions only exist in that one browser. `Esc` closes the
+panel.
 
 ## The data
 
@@ -70,10 +88,6 @@ rather than breaking the chart.
 
 The plot always fills the window — there is no scrolling, zooming or panning.
 
-The shipped file contains **placeholder models** (`placeholder: true`) so the chart
-has something to draw. They're invented — replace them before drawing any
-conclusion.
-
 ## Files
 
 ```
@@ -83,5 +97,5 @@ data/models.js    ← the data
 js/data.js        read + validate the data file
 js/scale.js       log/linear scales, tick and money formatting
 js/chart.js       the plot
-js/app.js         tabs, search, toggles
+js/app.js         tabs, search, toggles, add-model panel
 ```

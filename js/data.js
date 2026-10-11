@@ -101,6 +101,7 @@
                     name: name,
                     provider: typeof entry.provider === "string" ? entry.provider : null,
                     points: points,
+                    raw: entry,
                 });
             });
 
@@ -119,6 +120,7 @@
                 note: src.note || null,
                 placeholder: !!src.placeholder,
                 models: models,
+                raw: src,
             });
         });
 
