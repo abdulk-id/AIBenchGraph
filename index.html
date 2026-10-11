@@ -3,122 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LLM Score vs. Price per Task</title>
+<title>Cost vs Intelligence</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="brand">
-    <h1>Score vs. Price per Task</h1>
-    <p class="sub" id="metaLine">Loading data&hellip;</p>
-  </div>
-
-  <div class="controls">
-    <label class="field search">
-      <span class="sr-only">Search models</span>
-      <input type="search" id="search" placeholder="Search model or provider&hellip;" autocomplete="off">
-    </label>
-
-    <label class="field checkbox">
-      <input type="checkbox" id="openWeights">
-      <span>Open weights only</span>
-    </label>
-
-    <label class="field">
-      <span>Released before</span>
-      <input type="date" id="releasedBefore">
-    </label>
-
-    <label class="field">
-      <span>Price axis</span>
-      <select id="priceScale">
-        <option value="log">Log</option>
-        <option value="linear">Linear</option>
-      </select>
-    </label>
-
-    <div class="field toggles">
-      <label class="chip-toggle"><input type="checkbox" id="showPareto" checked><span>Pareto</span></label>
-      <label class="chip-toggle"><input type="checkbox" id="showQuadrant" checked><span>Quadrant</span></label>
-      <label class="chip-toggle"><input type="checkbox" id="showLinks" checked><span>Effort links</span></label>
-      <label class="chip-toggle"><input type="checkbox" id="showLabels"><span>Labels</span></label>
+<header>
+  <nav class="tabs" id="tabs"></nav>
+  <div class="tools">
+    <input type="search" id="search" placeholder="Find models" autocomplete="off" spellcheck="false">
+    <label class="check"><input type="checkbox" id="pareto" checked><span>Pareto line</span></label>
+    <div class="seg">
+      <button type="button" id="scaleLog" class="on">Log</button>
+      <button type="button" id="scaleLinear">Linear</button>
     </div>
-
-    <div class="field zoom">
-      <button type="button" id="zoomOut" title="Zoom out">&minus;</button>
-      <button type="button" id="zoomReset" title="Reset zoom">Reset</button>
-      <button type="button" id="zoomIn" title="Zoom in">+</button>
-    </div>
-
-    <div class="field">
-      <div class="segmented" role="tablist" aria-label="View">
-        <button type="button" id="viewChart" class="on" role="tab" aria-selected="true">Chart</button>
-        <button type="button" id="viewTable" role="tab" aria-selected="false">Table</button>
-      </div>
-    </div>
-
-    <details class="menu">
-      <summary>Data</summary>
-      <div class="menu-items">
-        <button type="button" data-action="stub-missing-json">Export missing data (JSON)</button>
-        <button type="button" data-action="stub-full-json">Export full template (JSON)</button>
-        <button type="button" data-action="stub-missing-tsv">Export missing data (TSV)</button>
-        <hr>
-        <button type="button" data-action="download-current">Download current data (JSON)</button>
-        <button type="button" data-action="load-json">Load JSON file&hellip;</button>
-        <button type="button" data-action="reload">Reload data file</button>
-      </div>
-    </details>
   </div>
 </header>
 
-<nav class="tabs" id="tabs" aria-label="Benchmark"></nav>
+<main id="chart"></main>
 
-<div class="legend" id="legend"></div>
-
-<section class="stats" id="stats"></section>
-
-<div id="alert" class="alert" hidden></div>
-
-<main>
-  <div class="chart-panel" id="chartPanel">
-    <div class="chart-head">
-      <h2 id="chartTitle">&nbsp;</h2>
-      <p id="chartDesc" class="muted"></p>
-    </div>
-    <div id="chart" class="chart"></div>
-    <p class="hint muted">Ctrl/&#8984; + scroll to zoom &middot; drag to pan &middot; click a point to pin a model &middot; double-click to reset</p>
-  </div>
-
-  <div class="detail" id="detail" hidden></div>
-
-  <div class="table-panel" id="tablePanel" hidden>
-    <div class="table-head">
-      <h2>Data table</h2>
-      <div class="table-actions">
-        <button type="button" id="copyTsv">Copy TSV</button>
-        <button type="button" id="downloadCsv">Download CSV</button>
-      </div>
-    </div>
-    <div id="table" class="table-scroll"></div>
-  </div>
-</main>
-
-<footer class="muted">
-  <span>Scores and cost-per-task values are transcribed by hand from
-  <a href="https://artificialanalysis.ai" target="_blank" rel="noreferrer">Artificial Analysis</a> &mdash;
-  this tool makes no network requests and stores nothing.</span>
+<footer>
+  <span id="note"></span>
+  <a id="src" target="_blank" rel="noreferrer"></a>
 </footer>
 
-<input type="file" id="fileInput" accept=".json,application/json" hidden>
-<div id="dropHint" class="drop-hint" hidden>Drop a JSON data file to load it</div>
+<div id="tip" class="tip"></div>
 
 <script src="data/models.js"></script>
 <script src="js/data.js"></script>
 <script src="js/scale.js"></script>
 <script src="js/chart.js"></script>
-<script src="js/table.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

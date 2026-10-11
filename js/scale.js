@@ -144,7 +144,7 @@
     var a = Math.abs(v);
     if (a >= 1000) return '$' + trimZeros((v / 1000).toFixed(a >= 10000 ? 0 : 1)) + 'k';
     if (a >= 1) return '$' + round(v, a >= 20 ? 0 : 2);
-    if (a < 0.01) return '$' + v.toPrecision(2);
+    if (a < 0.01) return '$' + trimZeros(v.toPrecision(2));
     return '$' + round(v, a >= 0.1 ? 2 : 3);
   }
 
