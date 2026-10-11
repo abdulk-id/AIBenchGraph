@@ -77,28 +77,6 @@ header {
     font-size: 11px;
 }
 
-.tools {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.tools input[type="search"] {
-    background: #0d0f12;
-    border: 1px solid #20242a;
-    border-radius: 6px;
-    color: #e8eaed;
-    font: inherit;
-    font-size: 12px;
-    padding: 4px 8px;
-    width: 150px;
-}
-
-.tools input[type="search"]::placeholder {
-    color: #5f6368;
-}
-
 .check {
     display: flex;
     align-items: center;
@@ -222,13 +200,39 @@ svg {
 footer {
     flex: 0 0 auto;
     display: flex;
-    gap: 16px;
     align-items: center;
-    height: 34px;
+    justify-content: space-between;
+    gap: 20px;
+    height: 36px;
     padding: 0 18px;
     border-top: 1px solid #14161a;
     color: #5f6368;
     font-size: 11.5px;
+}
+
+.foot-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 0 0 auto;
+}
+
+.foot-note {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.foot-note span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.foot-note a {
+    flex: 0 0 auto;
 }
 
 footer a {
@@ -298,12 +302,15 @@ footer .warn {
     border-color: #e8eaed;
 }
 
+/* Opens above the sidebar's add button, overlapping the plot to the left. */
 .add-panel {
-    position: absolute;
+    position: fixed;
     z-index: 30;
-    top: 52px;
-    right: 18px;
+    right: 14px;
+    bottom: 78px;
     width: 350px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
     padding: 12px 14px 14px;
     background: #0d0f12;
     border: 1px solid #262a30;
@@ -613,4 +620,56 @@ footer .warn {
     padding: 10px 12px;
     color: #4a4f57;
     font-size: 11.5px;
+}
+
+/* --------------------------------------------- sidebar search + add button */
+
+.side-search {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border-bottom: 1px solid #14161a;
+}
+
+.side-search input[type="search"] {
+    width: 100%;
+    background: #0d0f12;
+    border: 1px solid #20242a;
+    border-radius: 6px;
+    color: #e8eaed;
+    font: inherit;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.side-search input[type="search"]::placeholder {
+    color: #5f6368;
+}
+
+.side-search input[type="search"]:focus {
+    outline: none;
+    border-color: #4a4f57;
+}
+
+.side-add {
+    flex: 0 0 auto;
+    width: 100%;
+    background: none;
+    border: 0;
+    border-top: 1px solid #14161a;
+    color: #8b8f96;
+    font: inherit;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.side-add:hover {
+    color: #fff;
+    background: #0d0f12;
+}
+
+.side-add.on {
+    color: #000;
+    background: #e8eaed;
 }

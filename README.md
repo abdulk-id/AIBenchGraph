@@ -78,6 +78,14 @@ shape. It becomes its own tab:
 Entries that aren't a pair of finite numbers are skipped and listed in the console
 rather than breaking the chart.
 
+## Layout
+
+- **Top strip** — benchmark tabs only.
+- **Sidebar** — search box, then the model list, then `+ Model` across the full
+  width at the bottom. The add form opens upwards from that button.
+- **Below the plot** — Log/Linear and the Pareto line toggle on the left, the
+  data note and source link on the right.
+
 ## Showing and hiding models
 
 The sidebar lists every model for the current benchmark — the file's entries and

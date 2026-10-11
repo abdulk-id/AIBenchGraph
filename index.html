@@ -9,15 +9,6 @@
     <body>
         <header>
             <nav class="tabs" id="tabs"></nav>
-            <div class="tools">
-                <input type="search" id="search" placeholder="Find models" autocomplete="off" spellcheck="false" />
-                <label class="check"><input type="checkbox" id="pareto" checked /><span>Pareto line</span></label>
-                <div class="seg">
-                    <button type="button" id="scaleLog" class="on">Log</button>
-                    <button type="button" id="scaleLinear">Linear</button>
-                </div>
-                <button type="button" id="addBtn" class="add-btn">+ Model</button>
-            </div>
         </header>
 
         <form class="add-panel" id="addPanel" hidden>
@@ -53,17 +44,30 @@
         <div class="work">
 <main id="chart"></main>
 <aside class="side">
+<div class="side-search">
+<input type="search" id="search" placeholder="Find models" autocomplete="off" spellcheck="false" />
+</div>
 <div class="side-head">
 <span id="sideCount">Models</span>
 <button type="button" id="sideToggle">hide all</button>
 </div>
 <div class="side-list" id="sideList"></div>
+<button type="button" id="addBtn" class="side-add">+ Model</button>
 </aside>
 </div>
 
         <footer>
-            <span id="note"></span>
-            <a id="src" target="_blank" rel="noreferrer"></a>
+            <div class="foot-controls">
+                <div class="seg">
+                    <button type="button" id="scaleLog" class="on">Log</button>
+                    <button type="button" id="scaleLinear">Linear</button>
+                </div>
+                <label class="check"><input type="checkbox" id="pareto" checked /><span>Pareto line</span></label>
+            </div>
+            <div class="foot-note">
+                <span id="note"></span>
+                <a id="src" target="_blank" rel="noreferrer"></a>
+            </div>
         </footer>
 
         <div id="tip" class="tip"></div>
