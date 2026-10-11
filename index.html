@@ -1,38 +1,37 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIBenchGraph</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>AIBenchGraph</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <header>
+            <nav class="tabs" id="tabs"></nav>
+            <div class="tools">
+                <input type="search" id="search" placeholder="Find models" autocomplete="off" spellcheck="false" />
+                <label class="check"><input type="checkbox" id="pareto" checked /><span>Pareto line</span></label>
+                <div class="seg">
+                    <button type="button" id="scaleLog" class="on">Log</button>
+                    <button type="button" id="scaleLinear">Linear</button>
+                </div>
+            </div>
+        </header>
 
-<header>
-  <nav class="tabs" id="tabs"></nav>
-  <div class="tools">
-    <input type="search" id="search" placeholder="Find models" autocomplete="off" spellcheck="false">
-    <label class="check"><input type="checkbox" id="pareto" checked><span>Pareto line</span></label>
-    <div class="seg">
-      <button type="button" id="scaleLog" class="on">Log</button>
-      <button type="button" id="scaleLinear">Linear</button>
-    </div>
-  </div>
-</header>
+        <main id="chart"></main>
 
-<main id="chart"></main>
+        <footer>
+            <span id="note"></span>
+            <a id="src" target="_blank" rel="noreferrer"></a>
+        </footer>
 
-<footer>
-  <span id="note"></span>
-  <a id="src" target="_blank" rel="noreferrer"></a>
-</footer>
+        <div id="tip" class="tip"></div>
 
-<div id="tip" class="tip"></div>
-
-<script src="data/models.js"></script>
-<script src="js/data.js"></script>
-<script src="js/scale.js"></script>
-<script src="js/chart.js"></script>
-<script src="js/app.js"></script>
-</body>
+        <script src="data/models.js"></script>
+        <script src="js/data.js"></script>
+        <script src="js/scale.js"></script>
+        <script src="js/chart.js"></script>
+        <script src="js/app.js"></script>
+    </body>
 </html>

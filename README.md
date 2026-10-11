@@ -17,26 +17,26 @@ each becomes a tab and holds its own models.
 
 ```js
 window.AA_DATA = {
+    artificial_analysis_intelligence_index: {
+        label: "Artificial Analysis Intelligence Index",
+        axis: "Intelligence index", // y-axis title
+        unit: "index", // index | percent | elo
+        url: "https://artificialanalysis.ai/…", // optional, links the footer
+        note: "…", // optional, shown in the footer
+        placeholder: true, // flags the data as not real
 
-  'artificial_analysis_intelligence_index': {
-    label: 'Artificial Analysis Intelligence Index',
-    axis:  'Intelligence index',        // y-axis title
-    unit:  'index',                     // index | percent | elo
-    url:   'https://artificialanalysis.ai/…',   // optional, links the footer
-    note:  '…',                                // optional, shown in the footer
-    placeholder: true,                         // flags the data as not real
+        models: {
+            "GPT-5.6 Sol": { score: 58.9, cost: 1.2 }, // one score, one price
 
-    models: {
-      'GPT-5.6 Sol':    { score: 58.9, cost: 1.20 },        // one score, one price
-
-      'Claude Opus 5.5': {                                  // one per effort level
-        high:   { score: 58.0, cost: 1.85 },
-        medium: { score: 56.4, cost: 0.61 },
-        low:    { score: 54.9, cost: 0.21 },
-        none:   { score: 44.2, cost: 0.04 }
-      }
-    }
-  }
+            "Claude Opus 5.5": {
+                // one per effort level
+                high: { score: 58.0, cost: 1.85 },
+                medium: { score: 56.4, cost: 0.61 },
+                low: { score: 54.9, cost: 0.21 },
+                none: { score: 44.2, cost: 0.04 },
+            },
+        },
+    },
 };
 ```
 
