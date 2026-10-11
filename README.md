@@ -67,7 +67,8 @@ rather than breaking the chart.
 - **Pareto line** — nothing cheaper scores higher.
 - Hover a dot for the exact score and cost; hovering a model dims the rest.
 - Search box filters by model or provider. `/` focuses it, `Esc` clears it.
-- Ctrl/⌘ + scroll zooms, drag pans, double-click resets.
+
+The plot always fills the window — there is no scrolling, zooming or panning.
 
 The shipped file contains **placeholder models** (`placeholder: true`) so the chart
 has something to draw. They're invented — replace them before drawing any

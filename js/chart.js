@@ -2,6 +2,8 @@
    chart.js — the scatter plot. One point per model x reasoning effort,
    points of one model joined by a line, model names in a right-hand gutter.
 
+   The plot always fills the space it is given: no scrolling, no zoom, no pan.
+
    x = cost per task (USD)   y = score
    ========================================================================== */
 (function (AA) {
@@ -45,9 +47,6 @@
     root.appendChild(svg);
 
     var cfg = null;
-    var base = null;
-    var view = null;
-    var baseKey = null;
     var xs = F.linear(), ys = F.linear();
     var plot = { left: 48, right: 0, top: 12, bottom: 0, width: 0, height: 0 };
     var placed = [];
@@ -55,7 +54,8 @@
 
     /* --------------------------------------------------------------- domains */
 
-    function computeBase(models) {
+    /* Extent of whatever is currently plotted. */
+    function domain(models) {
       var costs = [], scores = [];
       models.forEach(function (m) {
         m.points.forEach(function (p) {
@@ -67,8 +67,7 @@
 
       var y0 = Math.min.apply(null, scores);
       var y1 = Math.max.apply(null, scores);
-      var pad = (y1 - y0) * 0.08 || 1;
-      var by0 = y0 - pad, by1 = y1 + pad;
+      var ypad = (y1 - y0) * 0.08 || 1;
 
       var x0, x1;
       if (!costs.length) {
@@ -86,14 +85,15 @@
         x1 = c1 + cpad;
         if (!(x1 > x0)) x1 = x0 + 1;
       }
-      return { x0: x0, x1: x1, y0: by0, y1: by1 };
+
+      return { x0: x0, x1: x1, y0: y0 - ypad, y1: y1 + ypad };
     }
 
+    /* Gutter on the right sized to the longest model name. */
     function layout() {
       var w = root.clientWidth || 800;
       var h = root.clientHeight || 500;
 
-      /* right gutter for the model names */
       var longest = 0;
       cfg.models.forEach(function (m) { longest = Math.max(longest, m.name.length); });
       var gutter = Math.min(230, Math.max(90, longest * 6.6 + 26));
@@ -110,7 +110,7 @@
     }
 
     function clampCost(p) {
-      return cfg.scale === 'log' ? Math.max(p.cost, view.x0) : p.cost;
+      return cfg.scale === 'log' ? Math.max(p.cost, xs.domain()[0]) : p.cost;
     }
 
     function radius(p) {
@@ -136,29 +136,24 @@
         return;
       }
 
-      if (cfg.baseKey !== baseKey || !base) {
-        baseKey = cfg.baseKey;
-        base = computeBase(cfg.models);
-        view = null;
-      }
-      if (!base) return;
-      if (!view) view = { x0: base.x0, x1: base.x1, y0: base.y0, y1: base.y1 };
+      var d = domain(cfg.models);
+      if (!d) return;
 
       xs = (cfg.scale === 'log' ? F.log() : F.linear())
-        .domain(view.x0, view.x1).range(plot.left, plot.right);
-      ys = F.linear().domain(view.y0, view.y1).range(plot.bottom, plot.top);
+        .domain(d.x0, d.x1).range(plot.left, plot.right);
+      ys = F.linear().domain(d.y0, d.y1).range(plot.bottom, plot.top);
 
-      drawAxes();
+      drawAxes(d);
       if (cfg.pareto) drawPareto();
       drawModels();
     }
 
-    function drawAxes() {
+    function drawAxes(d) {
       var L = plot.left, T = plot.top, W = plot.width, H = plot.height;
 
-      var yticks = F.linearTicks(view.y0, view.y1, Math.max(3, Math.round(H / 62)));
-      var xticks = cfg.scale === 'log' ? F.logTicks(view.x0, view.x1)
-        : F.linearTicks(view.x0, view.x1, Math.max(3, Math.round(W / 120)));
+      var yticks = F.linearTicks(d.y0, d.y1, Math.max(3, Math.round(H / 62)));
+      var xticks = cfg.scale === 'log' ? F.logTicks(d.x0, d.x1)
+        : F.linearTicks(d.x0, d.x1, Math.max(3, Math.round(W / 120)));
 
       yticks.forEach(function (t) {
         var py = Math.round(ys(t)) + 0.5;
@@ -179,6 +174,7 @@
       }, gAxis).textContent = 'Cost per task (USD, ' + cfg.scale + ' scale)';
     }
 
+    /* Points no cheaper model already beats on score. */
     function frontier() {
       var all = [];
       cfg.models.forEach(function (m) {
@@ -275,23 +271,18 @@
       });
     }
 
-    /* ------------------------------------------------------------- tooltip */
+    /* -------------------------------------------------------------- tooltip */
 
     var tip = opts.tip;
 
     function showTip(hit, ev) {
       if (!tip) return;
-      var rows = [
-        ['Score', F.num(hit.p.score, 2)],
-        ['Cost / task', F.usd(hit.p.cost)]
-      ];
       tip.innerHTML =
         '<div class="t-name">' + F.escapeHtml(hit.name) + '</div>' +
         (hit.provider ? '<div class="t-effort">' + F.escapeHtml(hit.provider) +
           (hit.p.effort ? ' · ' + F.escapeHtml(AA.data.effortLabel(hit.p.effort)) : '') + '</div>' : '') +
-        '<table>' + rows.map(function (r) {
-          return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td></tr>';
-        }).join('') + '</table>';
+        '<table><tr><td>Score</td><td>' + F.num(hit.p.score, 2) + '</td></tr>' +
+        '<tr><td>Cost / task</td><td>' + F.usd(hit.p.cost) + '</td></tr></table>';
 
       tip.classList.add('on');
       var rect = root.getBoundingClientRect();
@@ -315,105 +306,33 @@
       return best;
     }
 
-    /* ------------------------------------------------------------ pointers */
-
     function local(ev) {
       var r = root.getBoundingClientRect();
       return { x: ev.clientX - r.left, y: ev.clientY - r.top };
     }
 
-    var drag = null;
-
-    svg.addEventListener('pointerdown', function (ev) {
-      svg.setPointerCapture(ev.pointerId);
-      var p = local(ev);
-      drag = { x: p.x, y: p.y, moved: 0 };
-      hideTip();
-      if (opts.onHover) opts.onHover(null);
-    });
-
+    /* Hover only — the plot never scrolls, zooms or pans. */
     svg.addEventListener('pointermove', function (ev) {
       var p = local(ev);
-
-      if (drag) {
-        var dx = p.x - drag.x, dy = p.y - drag.y;
-        drag.moved += Math.abs(dx) + Math.abs(dy);
-        if (drag.moved > 3) {
-          pan(dx, dy);
-          hideTip();
-        }
-        drag.x = p.x; drag.y = p.y;
-        return;
-      }
-
       var hit = nearest(p.x, p.y);
       if (hit) {
         showTip(hit, ev);
         if (opts.onHover) opts.onHover(hit.name);
       } else {
         hideTip();
+        if (opts.onHover) opts.onHover(null);
       }
-    });
-
-    svg.addEventListener('pointerup', function (ev) {
-      if (svg.hasPointerCapture(ev.pointerId)) svg.releasePointerCapture(ev.pointerId);
-      drag = null;
     });
 
     svg.addEventListener('pointerleave', function () {
       hideTip();
-      drag = null;
       if (opts.onHover) opts.onHover(null);
     });
-
-    svg.addEventListener('wheel', function (ev) {
-      if (!ev.ctrlKey && !ev.metaKey) return;
-      ev.preventDefault();
-      if (!base) return;
-      var p = local(ev);
-      var k = Math.exp(ev.deltaY * 0.0016);
-      var ax = view.x0 + (view.x1 - view.x0) * clamp((p.x - plot.left) / plot.width, 0, 1);
-      var ay = view.y0 + (view.y1 - view.y0) * clamp((p.y - plot.top) / plot.height, 0, 1);
-      zoom(ax, ay, k);
-    }, { passive: false });
-
-    svg.addEventListener('dblclick', function () {
-      baseKey = null;
-      schedule();
-    });
-
-    function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
-
-    function zoom(ax, ay, k) {
-      var minX = (base.x1 - base.x0) / 500, maxX = base.x1 - base.x0;
-      var minY = (base.y1 - base.y0) / 80, maxY = base.y1 - base.y0;
-
-      var sx = clamp((view.x1 - view.x0) * k, minX, maxX);
-      var sy = clamp((view.y1 - view.y0) * k, minY, maxY);
-
-      /* keep whatever was under the cursor pinned there */
-      var nax = ax + ((view.x0 + view.x1) / 2 - ax) * (sx / (view.x1 - view.x0));
-      var nay = ay + ((view.y0 + view.y1) / 2 - ay) * (sy / (view.y1 - view.y0));
-      view = { x0: nax - sx / 2, x1: nax + sx / 2, y0: nay - sy / 2, y1: nay + sy / 2 };
-      schedule();
-    }
-
-    function pan(dxPx, dyPx) {
-      if (!view) return;
-      view = {
-        x0: view.x0 - (dxPx / plot.width) * (view.x1 - view.x0),
-        x1: view.x1 - (dxPx / plot.width) * (view.x1 - view.x0),
-        y0: view.y0 + (dyPx / plot.height) * (view.y1 - view.y0),
-        y1: view.y1 + (dyPx / plot.height) * (view.y1 - view.y0)
-      };
-      schedule();
-    }
 
     if (window.ResizeObserver) new ResizeObserver(schedule).observe(root);
 
     return {
-      update: function (next) { cfg = next; render(); },
-      reset: function () { baseKey = null; schedule(); }
+      update: function (next) { cfg = next; render(); }
     };
   };
 

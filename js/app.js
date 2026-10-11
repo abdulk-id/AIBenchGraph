@@ -65,7 +65,6 @@
       scale: S.scale,
       pareto: S.pareto,
       hover: S.hover,
-      baseKey: [S.sourceId, S.scale, S.search, list.length].join('|'),
       empty: !S.ds ? 'No data loaded — data/models.js did not set window.AA_DATA.'
         : (list.length ? 'No models match "' + S.search + '".'
           : 'No models in ' + (src ? src.label : 'this source') + '.')
@@ -132,7 +131,6 @@
     S.scale = 'log';
     dom.scaleLog.classList.add('on');
     dom.scaleLinear.classList.remove('on');
-    chart.reset();
     refresh();
   });
 
@@ -140,7 +138,6 @@
     S.scale = 'linear';
     dom.scaleLinear.classList.add('on');
     dom.scaleLog.classList.remove('on');
-    chart.reset();
     refresh();
   });
 
