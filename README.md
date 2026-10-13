@@ -62,7 +62,8 @@ window.AA_DATA = {
 - `score` is whatever that benchmark measures: index points, %, Elo.
 - Effort keys are free-form. These order and size themselves correctly:
   `none, minimal, low, medium, high, xhigh, max`. Anything else still works.
-- `provider` on a model is optional and only shows on hover.
+- `provider` on a model groups it in the sidebar (alphabetically) and shows on
+  hover. Models without one are collected under **Unspecified**.
 
 **Adding another benchmark** — just add another top-level entry with the same
 shape. It becomes its own tab:
@@ -89,9 +90,11 @@ rather than breaking the chart.
 ## Showing and hiding models
 
 The sidebar lists every model for the current benchmark — the file's entries and
-anything added in this browser — with a checkbox each. Untick to drop a model from
-the plot; the header shows `N of M` and **hide all / show all** resets in one click.
-The Pareto line is drawn through whichever models are currently shown.
+anything added in this browser — grouped by `provider`, alphabetically, with each
+model in the order it appears in the data file inside its own group. Untick to
+drop a model from the plot; the header shows `N of M`, a group with something
+hidden shows `shown/total` beside its name, and **hide all / show all** resets in
+one click. The Pareto line is drawn through whichever models are currently shown.
 
 The search box filters the sidebar and the plot together, and never hides a model
 from the sidebar itself, so a ticked-off model is always one click away.

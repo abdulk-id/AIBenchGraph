@@ -235,26 +235,59 @@
             return;
         }
 
-        dom.sideList.innerHTML = list
-            .map(function (m) {
-                var off = !!S.hidden[m.name];
+        /* Group by provider, alphabetical; models keep the order they appear in
+           the data file inside their own group. */
+        var groups = [];
+        var byProvider = {};
+
+        list.forEach(function (m) {
+            var key = m.provider || "Unspecified";
+            if (!byProvider[key]) {
+                byProvider[key] = { name: key, models: [] };
+                groups.push(byProvider[key]);
+            }
+            byProvider[key].models.push(m);
+        });
+        groups.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+        });
+
+        dom.sideList.innerHTML = groups
+            .map(function (g) {
+                var visible = g.models.filter(function (m) {
+                    return !S.hidden[m.name];
+                }).length;
+                var count =
+                    visible === g.models.length
+                        ? ""
+                        : '<span class="gc">' + visible + "/" + g.models.length + "</span>";
+
                 return (
-                    '<label class="side-item' +
-                    (off ? " off" : "") +
-                    '" data-name="' +
-                    esc(m.name) +
-                    '" title="' +
-                    esc(m.name + (m.provider ? " · " + m.provider : "")) +
-                    '"><input type="checkbox"' +
-                    (off ? "" : " checked") +
-                    ' /><i class="sw" style="background:' +
-                    AA.colorFor(m.name) +
-                    '"></i><span class="nm">' +
-                    esc((m.added ? "+ " : "") + m.name) +
-                    "</span></label>"
+                    '<div class="side-group">' +
+                    esc(g.name) +
+                    count +
+                    "</div>" +
+                    g.models.map(sideItem).join("")
                 );
             })
             .join("");
+    }
+
+    function sideItem(m) {
+        var off = !!S.hidden[m.name];
+        return (
+            '<label class="side-item' +
+            (off ? " off" : "") +
+            '" data-name="' +
+            esc(m.name) +
+            '"><input type="checkbox"' +
+            (off ? "" : " checked") +
+            ' /><i class="sw" style="background:' +
+            AA.colorFor(m.name) +
+            '"></i><span class="nm">' +
+            esc((m.added ? "+ " : "") + m.name) +
+            "</span></label>"
+        );
     }
 
     /* ---------------------------------------------------------- add panel */
