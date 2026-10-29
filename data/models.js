@@ -3,229 +3,271 @@
    Placeholder models are still here: delete the ones you don't want. */
 
 window.AA_DATA = {
-    "artificial_analysis_intelligence_index": {
-        "label": "Artificial Analysis Intelligence Index",
-        "short": "AA Intelligence Index",
-        "axis": "Intelligence index",
-        "unit": "index",
-        "url": "https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index",
-        "placeholder": true,
-        "note": "Data entered manually. Not fetched from AAII",
-        "models": {
+    artificial_analysis_intelligence_index: {
+        label: "Artificial Analysis Intelligence Index v5",
+        short: "AA Intelligence Index",
+        axis: "Intelligence index",
+        unit: "index",
+        url: "https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index",
+        placeholder: true,
+        note: "Data entered manually. Not fetched from AAII",
+        models: {
             "Claude Opus 5.5": {
-                "provider": "Anthropic",
-                "max": {
-                    "score": 58,
-                    "cost": 5.98
+                provider: "Anthropic",
+                max: {
+                    score: 58,
+                    cost: 10.04,
                 },
-                "xhigh": {
-                    "score": 56,
-                    "cost": 3.46
+                xhigh: {
+                    score: 57,
+                    cost: 6.05,
                 },
-                "high": {
-                    "score": 54,
-                    "cost": 1.82
+                high: {
+                    score: 52,
+                    cost: 3.46,
                 },
-                "medium": {
-                    "score": 51,
-                    "cost": 1.34
+                medium: {
+                    score: 48,
+                    cost: 2.45,
                 },
-                "low": {
-                    "score": 42,
-                    "cost": 0.55
-                }
+                low: {
+                    score: 35,
+                    cost: 0.98,
+                },
             },
             "Claude Sonnet 5.5": {
-                "provider": "Anthropic",
-                "max": {
-                    "score": 56,
-                    "cost": 5.46
+                provider: "Anthropic",
+                max: {
+                    score: 54,
+                    cost: 10.02,
                 },
-                "xhigh": {
-                    "score": 52,
-                    "cost": 2.01
+                xhigh: {
+                    score: 50,
+                    cost: 4.09,
                 },
-                "high": {
-                    "score": 47,
-                    "cost": 0.88
+                high: {
+                    score: 41,
+                    cost: 1.64,
                 },
-                "medium": {
-                    "score": 41,
-                    "cost": 0.48
+                medium: {
+                    score: 30,
+                    cost: 0.78,
                 },
-                "low": {
-                    "score": 36,
-                    "cost": 0.35
-                }
+                low: {
+                    score: 25,
+                    cost: 0.51,
+                },
             },
             "Claude Haiku 5.5": {
-                "provider": "Anthropic",
-                "max": {
-                    "score": 43,
-                    "cost": 0.21
+                provider: "Anthropic",
+                max: {
+                    score: 36,
+                    cost: 0.41,
                 },
-                "xhigh": {
-                    "score": 41,
-                    "cost": 0.12
+                xhigh: {
+                    score: 34,
+                    cost: 0.25,
                 },
-                "high": {
-                    "score": 38,
-                    "cost": 0.08
+                high: {
+                    score: 30,
+                    cost: 0.16,
                 },
-                "medium": {
-                    "score": 34,
-                    "cost": 0.05
+                medium: {
+                    score: 25,
+                    cost: 0.09,
                 },
-                "low": {
-                    "score": 29,
-                    "cost": 0.02
-                }
+                low: {
+                    score: 19,
+                    cost: 0.04,
+                },
+            },
+            "Claude Fable 5.1": {
+                provider: "Anthropic",
+                max: {
+                    score: 49,
+                    cost: 13.04,
+                },
+                xhigh: {
+                    score: 50,
+                    cost: 10.89,
+                },
+                high: {
+                    score: 47,
+                    cost: 7.56,
+                },
+                medium: {
+                    score: 43,
+                    cost: 5.58,
+                },
+                low: {
+                    score: 38,
+                    cost: 4.49,
+                },
+            },
+            "GPT-6.1 Sol": {
+                provider: "OpenAI",
+                max: {
+                    score: 55,
+                    cost: 1.27,
+                },
+                xhigh: {
+                    score: 52,
+                    cost: 0.76,
+                },
+                high: {
+                    score: 50,
+                    cost: 0.59,
+                },
+                medium: {
+                    score: 46,
+                    cost: 0.36,
+                },
+                low: {
+                    score: 35,
+                    cost: 0.16,
+                },
+            },
+            "GPT-6.1 Terra": {
+                provider: "OpenAI",
+                max: {
+                    score: 51,
+                    cost: 0.96,
+                },
+                xhigh: {
+                    score: 45,
+                    cost: 0.4,
+                },
+                high: {
+                    score: 42,
+                    cost: 0.26,
+                },
+                medium: {
+                    score: 38,
+                    cost: 0.17,
+                },
+                low: {
+                    score: 29,
+                    cost: 0.07,
+                },
+                none: {
+                    score: 30,
+                    cost: 0.23,
+                },
             },
             "GPT-6 Luna": {
-                "provider": "OpenAI",
-                "max": {
-                    "score": 38,
-                    "cost": 0.07
+                provider: "OpenAI",
+                max: {
+                    score: 28,
+                    cost: 0.15,
                 },
-                "xhigh": {
-                    "score": 35,
-                    "cost": 0.04
+                xhigh: {
+                    score: 23,
+                    cost: 0.1,
                 },
-                "high": {
-                    "score": 33,
-                    "cost": 0.03
+                high: {
+                    score: 21,
+                    cost: 0.07,
                 },
-                "medium": {
-                    "score": 30,
-                    "cost": 0.02
+                medium: {
+                    score: 18,
+                    cost: 0.04,
                 },
-                "low": {
-                    "score": 22,
-                    "cost": 0.01
+                low: {
+                    score: 10,
+                    cost: 0.01,
                 },
-                "none": {
-                    "score": 18,
-                    "cost": 0.0045
-                }
+                none: {
+                    score: 9,
+                    cost: 0.07,
+                },
+            },
+            "GPT-6 Astra": {
+                provider: "OpenAI",
+                max: {
+                    score: 57,
+                    cost: 6.24,
+                },
+                xhigh: {
+                    score: 55,
+                    cost: 3.66,
+                },
+                high: {
+                    score: 55,
+                    cost: 3.24,
+                },
+                medium: {
+                    score: 51,
+                    cost: 2.73,
+                },
+                low: {
+                    score: 43,
+                    cost: 1.42,
+                },
             },
             "MiMo-V2.6-Pro": {
-                "provider": "Xiaomi",
-                "score": 46,
-                "cost": 0.13
+                provider: "Xiaomi",
+                score: 30,
+                cost: 0.26,
             },
             "MiMo-V2.6-Flash": {
-                "provider": "Xiaomi",
-                "score": 38,
-                "cost": 0.06
-            },
-            "GLM-5.3-Flash": {
-                "provider": "Z AI",
-                "score": 42,
-                "cost": 0.25
-            },
-            "Qwen3.8 27B": {
-                "provider": "Alibaba",
-                "xhigh": {
-                    "score": 34,
-                    "cost": 1.01
-                },
-                "medium": {
-                    "score": 28,
-                    "cost": 1.13
-                },
-                "low": {
-                    "score": 26,
-                    "cost": 1.05
-                },
-                "none": {
-                    "score": 20,
-                    "cost": 2.49
-                }
-            },
-            "Ling-3.0-flash-Fin": {
-                "provider": "InclusionAI",
-                "score": 23,
-                "cost": 0
+                provider: "Xiaomi",
+                score: 27,
+                cost: 0.13,
             },
             "Grok 4.7": {
-                "provider": "SpaceXAI",
-                "xhigh": {
-                    "score": 46,
-                    "cost": 3.74
+                provider: "SpaceXAI",
+                xhigh: {
+                    score: 34,
+                    cost: 7.51,
                 },
-                "high": {
-                    "score": 46,
-                    "cost": 2.73
+                high: {
+                    score: 35,
+                    cost: 6.18,
                 },
-                "low": {
-                    "score": 42,
-                    "cost": 1.25
-                }
+                low: {
+                    score: 31,
+                    cost: 2.92,
+                },
             },
-            "Grok 4.6": {
-                "provider": "SpacecXAI",
-                "xhigh": {
-                    "score": 44,
-                    "cost": 1.75
+            "Qwen3.8 27B": {
+                provider: "Alibaba",
+                xhigh: {
+                    score: 20,
+                    cost: 3.53,
                 },
-                "high": {
-                    "score": 44,
-                    "cost": 1.48
-                },
-                "medium": {
-                    "score": 43,
-                    "cost": 1.14
-                },
-                "low": {
-                    "score": 35,
-                    "cost": 0.38
-                }
             },
-            "GPT-5.6 Sol": {
-                "provider": "OpenAI",
-                "max": {
-                    "score": 47,
-                    "cost": 1.99
+            "Gemini 3.8 Flash": {
+                provider: "Google",
+                high: {
+                    score: 31,
+                    cost: 3.84,
                 },
-                "xhigh": {
-                    "score": 44,
-                    "cost": 1.18
+                medium: {
+                    score: 30,
+                    cost: 6.26,
                 },
-                "high": {
-                    "score": 42,
-                    "cost": 0.81
+            },
+            "Gemini 4 Argon": {
+                provider: "Google",
+                high: {
+                    score: 50,
+                    cost: 7.77,
                 },
-                "medium": {
-                    "score": 39,
-                    "cost": 0.5
+            },
+            "Muse Wonder": {
+                provider: "Meta",
+                max: {
+                    score: 43,
+                    cost: 6.95,
                 },
-                "low": {
-                    "score": 33,
-                    "cost": 0.26
-                }
             },
             "Muse Spark 1.3": {
-                "provider": "Meta",
-                "max": {
-                    "score": 48,
-                    "cost": 1.6
+                provider: "Meta",
+                max: {
+                    score: 36,
+                    cost: 2.39,
                 },
-                "xhigh": {
-                    "score": 45,
-                    "cost": 1.37
-                }
             },
-            "Kimi K3": {
-                "provider": "Kimi",
-                "max": {
-                    "score": 44,
-                    "cost": 2
-                },
-                "low": {
-                    "score": 30,
-                    "cost": 1.15
-                }
-            }
-        }
-    }
+        },
+    },
 };
